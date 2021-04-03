@@ -36,7 +36,7 @@ def stripMine():
     return msg
 
 #Decode the binary message and return an ASCII string
-def decode(bits, msg):
+def decode(msg):
     #stores binary strings for each character
     binaryCharacters = []
     i = 0
@@ -75,4 +75,4 @@ ftp.quit()
 
 #Translate message
 bin_msg = stripMine()
-print(decode(METHOD, bin_msg))
+print(decode(bin_msg))
