@@ -1,18 +1,24 @@
 #The Magicians
 #FTP Covert Channel
-#Last Update: 4/3/2021  12:30pm
-
+#Last Update: 4/3/2021  1:40pm
 
 from ftplib import FTP
 
-def filtration():
-    chars = [" ", "'", ".", ","]
-    for i in range(26):
-        chars.append(chr(i+65))
-        chars.append(chr(i+97))
-    return chars
+### Golobal Constants ###
 
-# display the folder contents
+METHOD = 10 #METHOD should be 7 or 10
+
+# FTP server details
+IP = "138.47.102.120"
+PORT = 21
+USER = "anonymous"
+PASSWORD = ""
+FOLDER = "/10/"
+USE_PASSIVE = True # set to False if the connection times out
+
+### Functions ###
+
+# display the folder contents and translate to binary
 def stripMine():
     msg = ""
     for f in files:
@@ -21,43 +27,36 @@ def stripMine():
         elif METHOD == 10:
            vals = f[:10]
         for v in vals:
-            if v == "-":
-                msg += "0"
-            else:
-                msg += "1"
+            #skip files with character in the first 3 bits if method == 7
+            if ((f[0:3] == "---") and (METHOD == 7)) or (METHOD == 10):
+                if v == "-":
+                    msg += "0"
+                else:
+                    msg += "1"
     return msg
 
-def decode(bits, msg, valid_charset):
-    #print(msg)
-    l = len(msg)
+#Decode the binary message and return an ASCII string
+def decode(bits, msg):
+    #stores binary strings for each character
+    binaryCharacters = []
     i = 0
-    dec_msg = ""
-    while i < l:
-        if (l-i) < bits:
-            span = l-i
-        else:
-            span = bits
-        temp_char = chr(int(msg[i:(i+span)], 2))
-        if temp_char in valid_charset:
-            dec_msg += temp_char
-        i += span
-    return dec_msg
+    while(i < len(msg)):
+        #breaks the main string of numbers into 7-bit segments
+        binaryCharacters.append(msg[i:i+7])
+        i+=7
+    #translates binary to base 10
+    base10Characters = []
+    for b in binaryCharacters:
+        base10Characters.append(int(b, 2))
+    #translates base 10 to ASCII
+    ASCIICharacters = ""
+    for c in base10Characters:
+        ASCIICharacters += chr(c)
+    return ASCIICharacters
 
 ##############
 ###  Main  ###
 ##############
-
-#First, get message from channel
-
-METHOD = 7 #METHOD should be 7 or 10
-
-# FTP server details
-IP = "138.47.102.120"
-PORT = 21
-USER = "anonymous"
-PASSWORD = ""
-FOLDER = "/7/"
-USE_PASSIVE = True # set to False if the connection times out
 
 # connect and login to the FTP server
 ftp = FTP()
@@ -75,6 +74,5 @@ ftp.quit()
 
 
 #Translate message
-msg_chars = filtration()
 bin_msg = stripMine()
-print(decode(METHOD, bin_msg, msg_chars))
+print(decode(METHOD, bin_msg))
