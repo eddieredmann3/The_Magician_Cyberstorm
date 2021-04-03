@@ -1,28 +1,9 @@
+#The Magicians
+#FTP Covert Channel
+#Last Update: 4/3/2021  12:30pm
+
+
 from ftplib import FTP
-
-METHOD = 7 #METHOD should be 7 or 10
-
-# FTP server details
-IP = "138.47.102.120"
-PORT = 21
-USER = "anonymous"
-PASSWORD = ""
-FOLDER = "/7/"
-USE_PASSIVE = True # set to False if the connection times out
-
-# connect and login to the FTP server
-ftp = FTP()
-ftp.connect(IP, PORT)
-ftp.login(USER, PASSWORD)
-ftp.set_pasv(USE_PASSIVE)
-
-# navigate to the specified directory and list files
-ftp.cwd(FOLDER)
-files = []
-ftp.dir(files.append)
-
-# exit the FTP server
-ftp.quit()
 
 def filtration():
     chars = [" ", "'", ".", ","]
@@ -62,6 +43,38 @@ def decode(bits, msg, valid_charset):
         i += span
     return dec_msg
 
+##############
+###  Main  ###
+##############
+
+#First, get message from channel
+
+METHOD = 7 #METHOD should be 7 or 10
+
+# FTP server details
+IP = "138.47.102.120"
+PORT = 21
+USER = "anonymous"
+PASSWORD = ""
+FOLDER = "/7/"
+USE_PASSIVE = True # set to False if the connection times out
+
+# connect and login to the FTP server
+ftp = FTP()
+ftp.connect(IP, PORT)
+ftp.login(USER, PASSWORD)
+ftp.set_pasv(USE_PASSIVE)
+
+# navigate to the specified directory and list files
+ftp.cwd(FOLDER)
+files = []
+ftp.dir(files.append)
+
+# exit the FTP server
+ftp.quit()
+
+
+#Translate message
 msg_chars = filtration()
 bin_msg = stripMine()
 print(decode(METHOD, bin_msg, msg_chars))
