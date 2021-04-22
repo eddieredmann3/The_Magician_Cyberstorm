@@ -1,41 +1,42 @@
-#The Magicians
-#Chat Client Program
-#Python 3
-#04/23/2021
+# The Magicians
+# Member names: Alex Davis, Brandon Rogers, Eddie Redmann, Mary deMarigny, Matt Post, Skyler McAffry, Thomas Schwartzenburg, Landon Jackson
+# Chat Client Program
+# Python 3
+# 04/23/2021
 
 import socket
 from sys import stdout
 from time import time
 
-#translates binary string to base 10 int
+# translates binary string to base 10 int
 def binTo10(biniList):
     base10List = []
     for b in biniList:
         base10List.append(int(b, 2))
     return base10List
 
-#puts a long string of numbers into a list of 8-bit segments
+# puts a long string of numbers into a list of 8-bit segments
 def bit8Read(bini):
     i = 0
     base10list = []
     while(i < len(bini)):
-        #breaks the main string of numbers into 7-bit segments
+        # breaks the main string of numbers into 7-bit segments
         base10list.append(bini[i:i+8])
         i+=8
     return base10list
 
-#translates base 10 numbers to ASCII
+# translates base 10 numbers to ASCII
 def ASCIITranslate(b10List):
     ASCIIString = ""
     for b in b10List:
         ASCIIString += chr(b)
     return ASCIIString
 
-#converts binary string to ASCII values
+# converts binary string to ASCII values
 def binToASCII(bini):
     binaryList = []
     binaryList = bit8Read(bini)
-    #Feeds a list of binary numbers to the binTo10 function
+    # Feeds a list of binary numbers to the binTo10 function
     base10 = binTo10(binaryList)
     #Feeds a list of base 10 numbers to the ASCIITranslate function
     ASCII = ASCIITranslate(base10)
