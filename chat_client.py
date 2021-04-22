@@ -88,7 +88,7 @@ while (data.rstrip("\n") != "EOF"):
 # close the connection to the server
 s.close()
 
-# if the length of the str is no divisible by 8, take off bits until it is
+# if the length of the str is not divisible by 8, take off bits until it is
 while(len(binary_str) % 8 != 0):
     binary_str = binary_str[:len(binary_str)-1]
 
