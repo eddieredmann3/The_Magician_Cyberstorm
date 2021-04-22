@@ -1,4 +1,8 @@
-# use Python 3
+#The Magicians
+#Chat Client Program
+#Python 3
+#04/23/2021
+
 import socket
 from sys import stdout
 from time import time
@@ -27,6 +31,7 @@ def ASCIITranslate(b10List):
         ASCIIString += chr(b)
     return ASCIIString
 
+#converts binary string to ASCII values
 def binToASCII(bini):
     binaryList = []
     binaryList = bit8Read(bini)
@@ -74,6 +79,7 @@ while (data.rstrip("\n") != "EOF"):
         delta = 1
         binary_str = binary_str + str(delta)
 
+    # print out the time it takes to print out a character
     if (DEBUG):
         stdout.write(" {}\n".format(delta))
         stdout.flush()
@@ -87,6 +93,7 @@ while(len(binary_str) % 8 != 0):
 
 # convert binary_str to ASCII
 covert_msg = binToASCII(binary_str)
+
 # get rid of EOF from the end of binary_str
 covert_msg = covert_msg[:len(covert_msg)-3]
 
