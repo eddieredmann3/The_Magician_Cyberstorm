@@ -5,7 +5,6 @@ from hashlib import *
 def time_differential(ep, curr):
     #makes the epoch time that we read from stdin a usable form
     ep_t_struct = strptime(ep, "%Y %m %d %H %M %S")
-    curr = strptime(curr, "%Y %m %d %H %M %S")
     
     #gets the seconds so that we only change the code once per minute
     ep_t_sec = ep_t_struct.tm_sec
@@ -37,7 +36,8 @@ def hash_code_get(time_diff):
     hash_val = hash_val.hexdigest()
     
     #generating the code
-    code = hash_val[0:2] + hash_val[-2:]
+    #code = hash_val[0:2] + hash_val[-2:]
+    code = hash_val
     
     return code
 
@@ -50,20 +50,21 @@ for line in stdin:
     epoch += line
 
 # False for normal operation, True for debugging
-
 debug = True
+
 # When true, time will be set manually
 if debug == True:
     curr_time = "2017 03 23 18 02 06"
-    curr_time_s = strptime(curr_time, "%Y %m %d %H %M %S")
+    curr_time_s = strptime(curr_time,"%Y %m %d %H %M %S")
     #print(curr_time_s)
-    t = time_differential(epoch, curr_time)
+    t = time_differential(epoch, curr_time_s)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time)
+
 else:
     curr_time = localtime()
     curr_time_s = strftime("%Y %m %d %H %M %S", curr_time)
     #print(curr_time_s)
-    t = time_differential(epoch, curr_time)
+    t = time_differential(epoch, curr_time_s)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time_s)
