@@ -10,7 +10,7 @@ SENTINEL = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 offset = []
 
 def storage():
-	i == 0
+	i = 0
 	while (i < len(H)):
 		W[offset] == H[i]
 		offset += interval
@@ -24,12 +24,12 @@ def storage():
 
 def extraction():
 	while (offset < len(W)):
-		b == W[offset]
+		b = W[offset]
 		H += b
 		offset += interval
 
 def bit():
-	i == 0
+	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
 			W[offset] &= 11111110
@@ -38,7 +38,7 @@ def bit():
 			offset += interval
 		i += 1
 
-	i == 0
+	i = 0
 	while (i < len(SENTINEL)):
 		for j in range(0, 7):
 			W[offset] &= 11111110
@@ -49,7 +49,7 @@ def bit():
 
 def direct():
 	while (offset < len(W)):
-		b == 0
+		b = 0
 		for j in range(0, 7):
 			b |= (W[offset] & 10000000)
 			if (j < 7):
