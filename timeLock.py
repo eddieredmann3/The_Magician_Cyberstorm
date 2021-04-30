@@ -48,12 +48,14 @@ def hash_code_get(time_diff):
         if(hash_val[intValue] in letters):
             letterString += hash_val[intValue]
             letterValue += 1
+            intValue += 1
         else:
             intValue += 1
     intValue = 0
     while(intValue < 2):
         if(hash_val[numValue] in num):
             numString += hash_val[numValue]
+            numValue -= 1
             intValue += 1
         else:
             numValue -= 1
