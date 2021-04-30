@@ -76,7 +76,7 @@ def hash_code_get(time_diff):
 epoch = input()
 
 # False for normal operation, True for debugging
-debug = True 
+debug = False 
 
 # When true, time will be set manually
 if debug == True:
