@@ -1,6 +1,6 @@
 from sys import *
 
-METHOD = 10
+#METHOD = 10
 def xor(msg, key):
     if len(msg) <= len(key):
         key = key[:len(msg)-1]
@@ -21,6 +21,7 @@ def xor(msg, key):
     cipher = bin(cipher)[2:]
     return cipher
 
+
 data = stdin.buffer.read()
 #gets the key file and reads its contents as bytes
 k = "key"
@@ -28,6 +29,7 @@ f = open(k, "rb")
 fc = f.read()
 f.close()
 
+print(data)
 #encode    
 kv = bin(int.from_bytes(fc, "little"))[2:] #the magic formula for turning key text as binary
 mv = bin(int.from_bytes(data, "little"))[2:] #same for the message.
