@@ -21,24 +21,6 @@ def xor(msg, key):
     cipher = bin(cipher)[2:]
     return cipher
 
-def decode(msg):
-    #stores binary strings for each character
-    binaryCharacters = []
-    i = 0
-    while(i < len(msg)):
-        #breaks the main string of numbers into 7-bit segments
-        binaryCharacters.append(msg[i:i+METHOD])
-        i+=METHOD
-    #translates binary to base 10
-    base10Characters = []
-    for b in binaryCharacters:
-        base10Characters.append(int(b, 2))
-    #translates base 10 to ASCII
-    ASCIICharacters = ""
-    for c in base10Characters:
-        ASCIICharacters += chr(c)
-    return ASCIICharacters
-
 data = stdin.buffer.read()
 #gets the key file and reads its contents as bytes
 k = "key"
@@ -50,15 +32,8 @@ f.close()
 kv = bin(int.from_bytes(fc, "little"))[2:] #the magic formula for turning key text as binary
 mv = bin(int.from_bytes(data, "little"))[2:] #same for the message.
 
-if stdout.isatty():
-    #decode
-    cipher_text = xor(mv, kv)
-    enc_msg = decode(cipher_text)
-    print(enc_msg)
-else:
-    #print(len(mv))
-    cipher_text = xor(mv, kv)
-    dec_msg = decode(cipher_text)    
-    print(dec_msg)
-    
-   
+print(mv)
+print()
+print(kv)
+print()
+print(xor(mv, kv))
