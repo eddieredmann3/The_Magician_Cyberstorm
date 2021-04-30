@@ -24,7 +24,7 @@ def time_differential(ep, curr):
     return ((curr_t - ep_t) - sec_diff)
     
 def hash_code_get(time_diff):
-    time_diff = str(time_diff)
+    time_diff = str(int(time_diff))
     
     #uses the hashlib md5 function to convert the elapsed time string to a hash
     temp_hash = md5(time_diff.encode())
@@ -35,8 +35,6 @@ def hash_code_get(time_diff):
     hash_val = md5(temp_hash.encode())
     hash_val = hash_val.hexdigest()
     
-    #generating the code
-
     letterValue = 0
     letterString = ""
     numValue = len(hash_val) -1
@@ -68,22 +66,25 @@ def hash_code_get(time_diff):
     return code
 
 # we can find the epoch using the following commmand according to the time library documentation
-epoch = ""
-for line in stdin:
-    #reads the epoch from the epoch file or stdin
-    if 'Exit' == line.rstrip():
-        break
-    epoch += line
+#epoch = ""
+#for line in stdin:
+#    #reads the epoch from the epoch file or stdin
+#    if 'Exit' == line.rstrip():
+#        break
+#    epoch += line
+
+epoch = input()
 
 # False for normal operation, True for debugging
-debug = True
+debug = True 
 
 # When true, time will be set manually
 if debug == True:
-    curr_time = "2017 03 23 18 02 06"
+    curr_time = "2010 06 13 12 55 34"
     curr_time_s = strptime(curr_time,"%Y %m %d %H %M %S")
     #print(curr_time_s)
     t = time_differential(epoch, curr_time_s)
+    #print(t)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time)
 
@@ -91,6 +92,6 @@ else:
     curr_time = localtime()
     curr_time_s = strftime("%Y %m %d %H %M %S", curr_time)
     #print(curr_time_s)
-    t = time_differential(epoch, curr_time_s)
+    t = time_differential(epoch, curr_time)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time_s)
