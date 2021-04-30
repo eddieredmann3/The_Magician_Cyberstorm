@@ -36,9 +36,32 @@ def hash_code_get(time_diff):
     hash_val = hash_val.hexdigest()
     
     #generating the code
-    #code = hash_val[0:2] + hash_val[-2:]
-    code = hash_val
+
+    letterValue = 0
+    letterString = ""
+    numValue = len(hash_val) -1
+    numString = ""
+    letters = ["a", "b", "c", "d", "e", "f"]
+    num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    intValue = 0
+    while(letterValue < 2):
+        if(hash_val[intValue] in letters):
+            letterString += hash_val[intValue]
+            letterValue += 1
+        else:
+            intValue += 1
+
+    #print(len(hash_val))
+    while(intValue < 2):
+        if(hash_val[numValue] in num):
+            numString += hash_val[numValue]
+            intValue += 1
+        else:
+            numValue -= 1
     
+    code = letterString + numString
+    
+    #code = hash_val[0:2] + hash_val[-2:]
     return code
 
 # we can find the epoch using the following commmand according to the time library documentation
