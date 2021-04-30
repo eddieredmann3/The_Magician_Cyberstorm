@@ -29,13 +29,7 @@ f = open(k, "rb")
 fc = f.read()
 f.close()
 
-print(data)
-#encode    
 kv = bin(int.from_bytes(fc, "little"))[2:] #the magic formula for turning key text as binary
 mv = bin(int.from_bytes(data, "little"))[2:] #same for the message.
 
-print(mv)
-print()
-print(kv)
-print()
 print(xor(mv, kv))
