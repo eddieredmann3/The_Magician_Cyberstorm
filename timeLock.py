@@ -16,7 +16,7 @@ def time_differential(ep, curr):
     
     #sets the second offset so that we only change the code once per minute
     if curr_t_sec > ep_t_sec:
-        sec_diff = curr_t_sec > ep_t_sec
+        sec_diff = curr_t_sec - ep_t_sec
     else:
         sec_diff = curr_t_sec + (60 - ep_t_sec)
     
@@ -50,8 +50,7 @@ def hash_code_get(time_diff):
             letterValue += 1
         else:
             intValue += 1
-
-    #print(len(hash_val))
+    intValue = 0
     while(intValue < 2):
         if(hash_val[numValue] in num):
             numString += hash_val[numValue]
@@ -59,8 +58,10 @@ def hash_code_get(time_diff):
         else:
             numValue -= 1
     
+    #print(hash_val[len(hash_val)-1])
+    #print(numString)
     code = letterString + numString
-    
+    #code = hash_val
     #code = hash_val[0:2] + hash_val[-2:]
     return code
 
