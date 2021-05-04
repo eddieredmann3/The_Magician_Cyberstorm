@@ -2,40 +2,40 @@ import sys
 from sys import stdout
 
 
-W = 
-H = 
 
 SENTINEL = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 offset = []
 
-def storage():
+# Byte Method
+def storage(W, H, I):
 	i = 0
 	while (i < len(H)):
-		W[offset] == H[i]
-		offset += interval
+		W[offset] = H[i]
+		offset += I
 		i += 1
 
 	i == 0
 	while (i < len(SENTINEL)):
 		W[offset] == SENTINEL[i]
-		offset += interval
+		offset += I
 		i += 1
 
-def extraction():
+def extraction(W, H, I):
 	while (offset < len(W)):
 		b = W[offset]
 		H += b
-		offset += interval
+		offset += I
 
-def bit():
+# MitMEthod
+def bit(W, H, I):
 	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
 			W[offset] &= 11111110
 			W[offset] |= ((SENTINEL[i] & 10000000) >> 7)
 			H[i] <<= 1
-			offset += interval
+			offset += I
 		i += 1
 
 	i = 0
@@ -44,19 +44,19 @@ def bit():
 			W[offset] &= 11111110
 			W[offset] |= ((SENTINEL[i] 10000000) >> 7)
 			SENTINEL[i] <<= 1
-			offset += interval
+			offset += I
 		i += 1
 
-def direct():
+def direct(W, H, I):
 	while (offset < len(W)):
 		b = 0
 		for j in range(0, 7):
 			b |= (W[offset] & 10000000)
 			if (j < 7):
 				b <<= 1
-				offset += interval
+				offset += I
 		H += b
-		offset += interval
+		offset += I
 
 
 ###################### ENTRY POINT ##########################
