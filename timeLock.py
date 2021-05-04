@@ -35,12 +35,17 @@ def hash_code_get(time_diff):
     hash_val = md5(temp_hash.encode())
     hash_val = hash_val.hexdigest()
     
+    # Holds value placements and message strings
     letterValue = 0
     letterString = ""
     numValue = len(hash_val) -1
     numString = ""
+
+    # Holds avalible values for code
     letters = ["a", "b", "c", "d", "e", "f"]
     num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    
+    # Grabs the first two letter values left to right
     intValue = 0
     while(letterValue < 2):
         if(hash_val[intValue] in letters):
@@ -49,6 +54,8 @@ def hash_code_get(time_diff):
             intValue += 1
         else:
             intValue += 1
+
+    # Grabs the last two number values right to left
     intValue = 0
     while(intValue < 2):
         if(hash_val[numValue] in num):
@@ -58,11 +65,10 @@ def hash_code_get(time_diff):
         else:
             numValue -= 1
     
-    #print(hash_val[len(hash_val)-1])
-    #print(numString)
+    # Combines the letter values and number values
     code = letterString + numString
-    #code = hash_val
-    #code = hash_val[0:2] + hash_val[-2:]
+    
+    # returns the code
     return code
 
 # we can find the epoch using the following commmand according to the time library documentation
@@ -82,16 +88,13 @@ debug = False
 if debug == True:
     curr_time = "2010 06 13 12 55 34"
     curr_time_s = strptime(curr_time,"%Y %m %d %H %M %S")
-    #print(curr_time_s)
     t = time_differential(epoch, curr_time_s)
-    #print(t)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time)
 
 else:
     curr_time = localtime()
     curr_time_s = strftime("%Y %m %d %H %M %S", curr_time)
-    #print(curr_time_s)
     t = time_differential(epoch, curr_time)
     print(hash_code_get(t) + "\n")
     print("current system time: " + curr_time_s)
