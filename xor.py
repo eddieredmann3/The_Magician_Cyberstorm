@@ -62,7 +62,6 @@ data = stdin.buffer
 k = "key"
 f = open(k, "rb")
 msg = read_file(data)
-print("message length = {}".format(len(msg)))
 key = read_file(f)
 f.close()
 data.close()
