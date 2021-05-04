@@ -14,11 +14,12 @@ def read_file(infile):
     fb = infile.read(1) # reads the first byte
     fb = ord(fb) #gives the UTF-8 value of that byte
     char_vals.append(fb) #appends it to char_vals
-    while fb:
+    
+    while fb != "":
         try:
             fb = infile.read(1)
             fb = ord(fb)
-            #print(chr(fb))
+            # print(chr(fb))
             char_vals.append(fb)
         # ord() throws a TypeError when it reaches the end of the file
         # because it's trying to perform ord(b'')
@@ -30,9 +31,9 @@ def read_file(infile):
 def xor(msg, key):
     xorlist = []
     #actually doing the xor
-    if len(key) > len(msg):
+    if len(key) >= len(msg):
     #checking to see if the key is longer than the messsage
-        key_v = key[0:(len(msg) - 1)]
+        key_v = key[0:(len(msg))]
     #if the key is shorter than the message...
     else:
         key_v = []
