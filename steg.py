@@ -39,23 +39,23 @@ def extraction(W, H, I):
 			H += b
 			offset += I
 
-# MitMEthod
+# bit Method
 def bit(W, H, I):
 	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
-			W[offset] &= 11111110
-			W[offset] |= ((SentinelValue[i] & 10000000) >> 7)
-			H[i] <<= 1
+			W[offset] = W[offset] & 11111110
+			W[offset] = W[offset] | ((SentinelValue[i] & 10000000) >> 7)
+			H[i] = H[i] << 1
 			offset += I
 		i += 1
 
 	i = 0
 	while (i < len(SentinelValue)):
 		for j in range(0, 7):
-			W[offset] &= 11111110
-			W[offset] |= ((SentinelValue[i] 10000000) >> 7)
-			SentinelValue[i] <<= 1
+			W[offset] = W[offset] & 11111110
+			W[offset] = W[offset] | ((SentinelValue[i] & 10000000) >> 7)
+			SentinelValue[i] = SentinelValue[i] << 1
 			offset += I
 		i += 1
 
@@ -63,9 +63,9 @@ def direct(W, H, I):
 	while (offset < len(W)):
 		b = 0
 		for j in range(0, 7):
-			b |= (W[offset] & 10000000)
+			b = b | (W[offset] & 10000000)
 			if (j < 7):
-				b <<= 1
+				b = b << 1
 				offset += I
 		H += b
 		offset += I
