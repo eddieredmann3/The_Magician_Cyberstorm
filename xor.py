@@ -33,8 +33,10 @@ def xor(msg, key):
     if len(key) > len(msg):
     #checking to see if the key is longer than the messsage
         key_v = key[0:(len(msg))]
+    #if the key is shorter than the message...
     else:
         key_v = []
+        #repeat the key until it is the length of the message
         while len(key_v) < len(msg):
             for k in key:
                 if (len(key_v) == len(msg)):
