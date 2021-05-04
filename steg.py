@@ -3,11 +3,18 @@ from sys import stdout
 
 
 
-SENTINEL = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
+
+SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 offset = []
 
 # Byte Method
+def interval(Sw, Sh, o, s):
+	It = Sw - o
+	Ib = Sh + s
+	Ivalue = It/Ib
+	return Ivalue
+
 def storage(W, H, I):
 	i = 0
 	while (i < len(H)):
@@ -16,16 +23,21 @@ def storage(W, H, I):
 		i += 1
 
 	i == 0
-	while (i < len(SENTINEL)):
-		W[offset] == SENTINEL[i]
+	while (i < len(SentinelValue)):
+		W[offset] == SentinelValue[i]
 		offset += I
 		i += 1
 
 def extraction(W, H, I):
 	while (offset < len(W)):
 		b = W[offset]
-		H += b
-		offset += I
+		# Check if b matches a sentinel byte
+		if(b in SentinelValue):
+			# Check further...
+			pass
+		else:
+			H += b
+			offset += I
 
 # MitMEthod
 def bit(W, H, I):
@@ -33,17 +45,17 @@ def bit(W, H, I):
 	while (i < len(H)):
 		for j in range(0, 7):
 			W[offset] &= 11111110
-			W[offset] |= ((SENTINEL[i] & 10000000) >> 7)
+			W[offset] |= ((SentinelValue[i] & 10000000) >> 7)
 			H[i] <<= 1
 			offset += I
 		i += 1
 
 	i = 0
-	while (i < len(SENTINEL)):
+	while (i < len(SentinelValue)):
 		for j in range(0, 7):
 			W[offset] &= 11111110
-			W[offset] |= ((SENTINEL[i] 10000000) >> 7)
-			SENTINEL[i] <<= 1
+			W[offset] |= ((SentinelValue[i] 10000000) >> 7)
+			SentinelValue[i] <<= 1
 			offset += I
 		i += 1
 
