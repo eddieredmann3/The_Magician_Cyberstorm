@@ -32,7 +32,7 @@ def xor(msg, key):
     #actually doing the xor
     if len(key) > len(msg):
     #checking to see if the key is longer than the messsage
-        key_v = key[0:(len(msg))]
+        key_v = key[0:(len(msg) - 1)]
     #if the key is shorter than the message...
     else:
         key_v = []
@@ -58,7 +58,7 @@ def convert_message(x_list):
 data = stdin.buffer
 
 #gets the key file and reads its contents as bytes
-k = "key2"
+k = "key"
 f = open(k, "rb")
 msg = read_file(data)
 key = read_file(f)
