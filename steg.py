@@ -41,7 +41,7 @@ def bit(W, H, I):
 	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 255
+			W[offset] = W[offset] & 254
 			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
 			H[i] = H[i] << 1
 			offset += I
@@ -50,7 +50,7 @@ def bit(W, H, I):
 	i = 0
 	while (i < len(SentinelValue)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 255
+			W[offset] = W[offset] & 254
 			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
 			SentinelValue[i] = SentinelValue[i] << 1
 			offset += I
