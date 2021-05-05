@@ -70,6 +70,72 @@ def direct(W, H, I):
 ###################### ENTRY POINT ##########################
 # Will take in command-line arguments
 
+#print(sys.argv)
+if(sys.argv[1] == "-s"):
+    mode = "store"
+# if retrieve option
+elif(sys.argv[1] == "-r"):
+    mode = "retrieve"
+# if bit option
+if(sys.argv[2] == "-b"):
+    methodVersion = "bit"
+
+# if byte option
+elif(sys.argv[2] == "-B"):
+    methodVersion = "Byte"
+
+# get the offset valu
+offTrack = sys.argv[3][2:]
+
+# check to see if there is a given interval
+interval = sys.argv[4][2:]
+
+# interval not given so sys.argv[4] is -w	
+infile = sys.argv[5][2:]
+# see if argv[5] is -w or -h or null
+
+try:
+    secretout = sys.argv[6][2:]
+except:
+    secretout = "new.jpg" 
+
+
+
+# bit Method
+def bit(W, H, I):
+	i = 0
+	while (i < len(H)):
+		for j in range(0, 7):
+			W[offset] = W[offset] & 254
+			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
+			H[i] = H[i] << 1
+			offset += I
+		i += 1
+
+	i = 0
+	while (i < len(SentinelValue)):
+		for j in range(0, 7):
+			W[offset] = W[offset] & 254
+			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
+			SentinelValue[i] = SentinelValue[i] << 1
+			offset += I
+		i += 1
+
+def direct(W, H, I):
+	while (offset < len(W)):
+		b = 0
+		for j in range(0, 7):
+			b = b | (W[offset] & 128)
+			if (j < 7):
+				b = b << 1
+				offset += I
+		H += b
+		offset += I
+
+
+###################### ENTRY POINT ##########################
+# Will take in command-line arguments
+
 if(sys.__stdin__.isatty()):
     # if store option
     if(sys.argv[1] == "-s"):
@@ -104,8 +170,3 @@ if(sys.__stdin__.isatty()):
 			intervalValue = sys.argv[4][2:]
     
     # see if argv[5] is -w or -h or null
-
-
-
-else:
-    pass
