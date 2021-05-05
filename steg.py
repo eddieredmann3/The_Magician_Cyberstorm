@@ -73,45 +73,102 @@ def direct(W, H, I):
 
 ###################### ENTRY POINT ##########################
 # Will take in command-line arguments
+#try-excepts are used to ensure correct user input
 
-#print(sys.argv)
-if(sys.argv[1] == "-s"):
-    mode = "store"
-# if retrieve option
-elif(sys.argv[1] == "-r"):
-    mode = "retrieve"
-# if bit option
-if(sys.argv[2] == "-b"):
-    methodVersion = "bit"
-
-# if byte option
-elif(sys.argv[2] == "-B"):
-    methodVersion = "Byte"
-
-if(sys.argv[3][0:2] == "-o"):
-	if(sys.argv[3][2:] != None):
-		offTrack = sys.argv[3][2:]
+#Store/Retrieve mode
+try:
+	#print(sys.argv)
+	if(sys.argv[1] == "-s"):
+	    mode = "store"
+	# if retrieve option
+	elif(sys.argv[1] == "-r"):
+	    mode = "retrieve"
+	# if the user put neither
 	else:
-		offTrack = 0
+		print("first argument should be -s (for store) or -r (for retrieve).")
+except:
+	print("first argument required; should be -s (for store) or -r (for retrieve).")
 
-if(sys.argv[4][0:2] == "-i"):
-	if(sys.argv[4][2:] != None):
-		intervalValue = sys.argv[3][2:]
+#Byte/bit mode
+try:
+	# if bit option
+	if(sys.argv[2] == "-b"):
+	    methodVersion = "bit"
+	# if byte option
+	elif(sys.argv[2] == "-B"):
+	    methodVersion = "Byte"
 	else:
-		intervalValue = 1
+		print("second argument should be -b (for bit) or -B (for Byte).")
+except:
+	print("second argument required; should be -b (for bit) or -B (for Byte).")
 
-# interval not given so sys.argv[4] is -w	
-wrapper = sys.argv[5][2:]
+#offset
+try:
+	# get the offset value
+	offTrack = sys.argv[3]
+	#check that the correct argument was given
+	if(offTrack[1] != 'o'):
+		print("third argument should be -o<val> (for offset)")
+	else:
+		offTrack = offTrack[2:]
+except:
+	print("third argument required; should be -o<val> (for offset)")
+
+#interval
+try:
+	# get given interval
+	interval = sys.argv[4]
+	if(interval[1] != 'i'):
+		print("fourth argument should be -i<val> (for interval)")
+	else:
+		interval = interval[2:]
+except:
+	print("fourth argument required; should be -i<val> (for interval)")
+
+#wrapper
+try:
+	# check for wrapper	
+	wrapper = sys.argv[5]
+	if(wrapper[1] != 'w'):
+		print("fifth argument should be -w<val> (for wrapper)")
+	else:
+		wrapper = wrapper[2:]
+except:
+	print("fifth argument required; should be -w<val> (for wrapper)")
+
+
+#check for a hidden file
+try:
+	hidden = sys.argv[6] #this should throw an error and go to "except" if no argument is given
+	if(hidden[1] != 'h'):
+		print("sixth argument should be -h<val> (for hidden)")
+	else:
+		hidden = hidden[2:]
+#if no wrapper file is given, ensure we are in retrieve mode
+except:
+	if(mode != "retrieve"):
+		print("sixth argument is required for store mode; should be -h<val> (for hidden)")
+
+
+
 # see if argv[5] is -w or -h or null
 w_size = os.path.getSize(wrapper)
 
+#open wrapper file in binary mode
 infile = open(wrapper, "rb")
-if mode == "store":
-    hiddenfile = sys.argv[6][2:]
-    h_size = os.path.getSize(hiddenfile)
-    if methodVersion == "Byte":
-        pass
-    else:
-        pass
-else:
-    pass
+
+
+
+# v  keeping for now, but not neccesary. will probably delete later  v
+# if mode == "store":
+#     hiddenfile = sys.argv[6][2:]
+#     h_size = os.path.getSize(hiddenfile)
+#     #setting the interval size
+#     file_interval = interval(w_size, h_size, offTrack)
+#     print(file_interval)
+#     if methodVersion == "Byte":
+#         pass
+#     else:
+#         pass
+# else:
+#     pass
