@@ -1,9 +1,6 @@
 import sys
 from sys import stdout
 
-
-
-
 SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 offset = []
@@ -44,8 +41,8 @@ def bit(W, H, I):
 	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 11111110
-			W[offset] = W[offset] | ((SentinelValue[i] & 10000000) >> 7)
+			W[offset] = W[offset] & 255
+			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
 			H[i] = H[i] << 1
 			offset += I
 		i += 1
@@ -53,8 +50,8 @@ def bit(W, H, I):
 	i = 0
 	while (i < len(SentinelValue)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 11111110
-			W[offset] = W[offset] | ((SentinelValue[i] & 10000000) >> 7)
+			W[offset] = W[offset] & 255
+			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
 			SentinelValue[i] = SentinelValue[i] << 1
 			offset += I
 		i += 1
@@ -63,7 +60,7 @@ def direct(W, H, I):
 	while (offset < len(W)):
 		b = 0
 		for j in range(0, 7):
-			b = b | (W[offset] & 10000000)
+			b = b | (W[offset] & 128)
 			if (j < 7):
 				b = b << 1
 				offset += I
@@ -109,3 +106,6 @@ if(sys.__stdin__.isatty()):
     # sys.argv[6] is -h
     if(len(sys.argv) == 7):
         print("HIDDEN FILE = " + sys.argv[6][2:])
+
+else:
+    pass
