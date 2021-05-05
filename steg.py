@@ -1,15 +1,17 @@
 import sys
-
+import Math
+import os
 
 SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 offset = []
 
 # Byte Method
-def interval(Sw, Sh, o, s):
+def interval(Sw, Sh, o): #Sw is the size of wrapper, Sh is the size of the hidden file,
+#o is the size of the offset
 	It = Sw - o
-	Ib = Sh + s
-	Ivalue = It/Ib
+	Ib = Sh + len(SentinelValue)
+	Ivalue = Math.floor(It/Ib)
 	return Ivalue
 
 def storage(W, H, I):
@@ -52,7 +54,7 @@ def bit(W, H, I):
 		for j in range(0, 7):
 			W[offset] = W[offset] & 254
 			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
-			SentinelValue[i] = SentinelValue[i] << 1
+                SentinelValue[i] = SentinelValue[i] << 1
 			offset += I
 		i += 1
 
@@ -86,28 +88,25 @@ elif(sys.argv[2] == "-B"):
     methodVersion = "Byte"
 
 # get the offset valu
-if(sys.argv[3][0:2] == "-o"):
-	if(sys.argv[3][2:] != None):
-		offTrack = sys.argv[3][2:]
-	else:
-		offTrack = 0
-
-if(sys.argv[4][0:2] == "-i"):
-	if(sys.argv[4][2:] != None):
-		intervalValue = sys.argv[3][2:]
-	else:
-		intervalValue = 1
+offTrack = sys.argv[3][2:]
 
 # check to see if there is a given interval
 interval = sys.argv[4][2:]
 
 # interval not given so sys.argv[4] is -w	
-infile = sys.argv[5][2:]
+wrapper = sys.argv[5][2:]
 # see if argv[5] is -w or -h or null
+w_size = os.path.getSize(wrapper)
 
-try:
-    secretout = sys.argv[6][2:]
-except:
-    secretout = "new.jpg" 
-
-
+infile = open(wrapper, "rb")
+if mode == "store":
+    hiddenfile = sys.argv[6][2:]
+    h_size = os.path.getSize(hiddenfile)
+    file_interval = interval(w_size, h_size, offTrack) #setting the interval size
+    print(file_interval)
+    if methodVersion == "Byte":
+        pass
+    else:
+        pass
+else:
+    pass
