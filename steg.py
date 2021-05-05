@@ -78,7 +78,8 @@ if(sys.__stdin__.isatty()):
     # if retrieve option
     elif(sys.argv[1] == "-r"):
         mode = "retrieve"
-    # if bit option
+    
+	# if bit option
     if(sys.argv[2] == "-b"):
         methodVersion = "bit"
 
@@ -87,16 +88,24 @@ if(sys.__stdin__.isatty()):
         methodVersion = "Byte"
 
     # get the offset value
-	offTrack = sys.argv[3]
-    
-	# check to see if there is a given interval
-	interval = sys.argv[4]
+	if(sys.argv[3][0:2] == "-o"):
 
-    # interval not given so sys.argv[4] is -w
+		if(sys.argv[3][2:] == None):
+			offTrack = 0
+		else:
+			offTrack = sys.argv[4][2:]
+
 	
+	if(sys.argv[4][0:2] == "-i"):
+		# check to see if there is a given interval
+
+		if(sys.argv[4][2:] == None):
+			intervalValue = 1
+		else:
+			intervalValue = sys.argv[4][2:]
+    
     # see if argv[5] is -w or -h or null
 
-    # sys.argv[6] is -h
 
 
 else:
