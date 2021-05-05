@@ -86,7 +86,17 @@ elif(sys.argv[2] == "-B"):
     methodVersion = "Byte"
 
 # get the offset valu
-offTrack = sys.argv[3][2:]
+if(sys.argv[3][0:2] == "-o"):
+	if(sys.argv[3][2:] != None):
+		offTrack = sys.argv[3][2:]
+	else:
+		offTrack = 0
+
+if(sys.argv[4][0:2] == "-i"):
+	if(sys.argv[4][2:] != None):
+		intervalValue = sys.argv[3][2:]
+	else:
+		intervalValue = 1
 
 # check to see if there is a given interval
 interval = sys.argv[4][2:]
