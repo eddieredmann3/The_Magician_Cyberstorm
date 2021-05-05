@@ -74,38 +74,30 @@ def direct(W, H, I):
 if(sys.__stdin__.isatty()):
     # if store option
     if(sys.argv[1] == "-s"):
-        stdout.write("STORE\n")
-        stdout.flush()
+        mode = "store"
     # if retrieve option
     elif(sys.argv[1] == "-r"):
-        stdout.write("RETRIEVE\n")
-        stdout.flush()
+        mode = "retrieve"
     # if bit option
     if(sys.argv[2] == "-b"):
-        stdout.write("BIT\n")
-        stdout.flush()
+        methodVersion = "bit"
+
     # if byte option
     elif(sys.argv[2] == "-B"):
-        stdout.write("BYTE\n")
-        stdout.flush()
+        methodVersion = "Byte"
+
     # get the offset value
-    print(sys.argv[3][2:])
-    # check to see if there is a given interval
-    if(sys.argv[4][0:2] == "-i"):
-        print("INTERVAL = " + sys.argv[4][2:])
+	offTrack = sys.argv[3]
+    
+	# check to see if there is a given interval
+	interval = sys.argv[4]
+
     # interval not given so sys.argv[4] is -w
-    elif(sys.argv[4][0:2] == "-w"):
-        print("INTERVAL = 1")
-        print("WRAPPER FILE = " + sys.argv[4][2:])
+	
     # see if argv[5] is -w or -h or null
-    if(len(sys.argv) >= 6):
-        if(sys.argv[5][0:2] == "-w"):
-            print("WRAPPER FILE = " + sys.argv[5][2:])
-        elif(sys.argv[5][0:2] == "-h"):
-            print("HIDDEN FILE = " + sys.argv[5][2:])
+
     # sys.argv[6] is -h
-    if(len(sys.argv) == 7):
-        print("HIDDEN FILE = " + sys.argv[6][2:])
+
 
 else:
     pass
