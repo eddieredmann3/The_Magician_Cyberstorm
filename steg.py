@@ -54,7 +54,8 @@ def bit(W, H, I):
 		for j in range(0, 7):
 			W[offset] = W[offset] & 254
 			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
-        	SentinelValue[i] = SentinelValue[i] << 1
+        		
+			SentinelValue[i] = SentinelValue[i] << 1
 			offset += I
 		i += 1
 
@@ -108,8 +109,6 @@ infile = open(wrapper, "rb")
 if mode == "store":
     hiddenfile = sys.argv[6][2:]
     h_size = os.path.getSize(hiddenfile)
-    file_interval = interval(w_size, h_size, offTrack) #setting the interval size
-    print(file_interval)
     if methodVersion == "Byte":
         pass
     else:
