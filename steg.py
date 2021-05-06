@@ -57,34 +57,35 @@ def byteExtraction(wrapper, offset, interval):
 
 
 # bit Method
-def bitStorage(W, H, I):
+def bitStorage(wrapper, hidden, interval):
 	i = 0
-	while (i < len(H)):
+	while (i < len(hidden)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 254
-			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
-			H[i] = H[i] << 1
-			offset += I
+			wrapper[offset] = wrapper[offset] & 254
+			wrapper[offset] = wrapper[offset] | ((SentinelValue[i] & 128) >> 7)
+			hidden[i] = hidden[i] << 1
+			offset += interval
 		i += 1
 
 	i = 0
 	while (i < len(SentinelValue)):
 		for j in range(0, 7):
-			W[offset] = W[offset] & 254
-			W[offset] = W[offset] | ((SentinelValue[i] & 128) >> 7)
+			wrapper[offset] = wrapper[offset] & 254
+			wrapper[offset] = wrapper[offset] | ((SentinelValue[i] & 128) >> 7)
         		
 			SentinelValue[i] = SentinelValue[i] << 1
-			offset += I
+			offset += interval
 		i += 1
 
-def bitExtraction(W, H, I):
-	while (offset < len(W)):
+def bitExtraction(wrapper, offset, interval):
+	hidden = 
+	while (offset < len(wrapper)):
 		b = 0
 		for j in range(0, 7):
-			b = b | (W[offset] & 128)
+			b = b | (wrapper[offset] & 128)
 			if (j < 7):
 				b = b << 1
-				offset += I
+				offset += interval
 		H += b
 		offset += I
 
