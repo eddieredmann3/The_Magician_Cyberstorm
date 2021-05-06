@@ -17,7 +17,7 @@ def read_file(file):
 		#turn byte to int
 		newByte = ord(newByte)
 		#add new byte to byte array
-		bytearr.append(newByte))
+		bytearr.append(newByte)
 	infile.close()
 	return bytearr
 
