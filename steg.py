@@ -1,12 +1,10 @@
 import sys
-# import Math
 import os
 
 SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 #this function reads files and returns them as byte arrays
 def read_file(file):
-	def read_file(file):
 	#open the file in read/byte mode
 	infile = open(file, 'rb')
 	#create an empty byte array
@@ -21,7 +19,7 @@ def read_file(file):
 	infile.close()
 	return bytearr
 
-def storage(wrapper, hidden, interval):
+def byteStorage(wrapper, hidden, interval):
 	i = 0
 	while (i < len(hidden)):
 		wrapper[offset] = hidden[i]
@@ -35,15 +33,10 @@ def storage(wrapper, hidden, interval):
 		i += 1
 	return wrapper
 
-def extraction(wrapper, offset, interval): ## !! there is no "hidden" to be passed in in this case !!##
+def byteExtraction(wrapper, offset, interval):
 	hidden = bytearray()
-	print("offset = {}".format(offset))
-	print("interval = {}".format(interval))
-	print("wrapper length = {}".format(len(wrapper)))
-
 	while (offset < len(wrapper)):
-		b = wrapper[offset]
-		print("b = {}".format(b))
+		b = wrapper[offset] 		##!!  b always prints as 0 for some reason  !!##
 		# Check if b matches a sentinel byte
 		if(b == SentinelValue[0]):
 			# Check further...
@@ -53,13 +46,13 @@ def extraction(wrapper, offset, interval): ## !! there is no "hidden" to be pass
 				# check for all sentinel values
 				if((tempB + (offset * i)) != SentinelValue[i]):
 					sentinelHit = False
+					break
 			#break while loop and return hidden if the sentinel was reached
-			if(sentinelHit == False):
+			if(sentinelHit == True):
 				break
 		# Add b to hidden
 		else:
 			hidden.append(b)
-			print("hidden = {}".format(hidden))
 			offset += interval
 	return hidden
 
@@ -147,7 +140,7 @@ try:
 	if(interval[0] != '-' and interval[1] != 'i'):
 		print("fourth argument should be -i<val> (for interval)")
 	else:
-		interval = interval[2:]
+		interval = int(interval[2:])
 except:
 	print("fourth argument required; should be -i<val> (for interval)")
 
@@ -175,28 +168,18 @@ except:
 	if(mode != "retrieve"):
 		print("sixth argument is required for store mode; should be -h<val> (for hidden)")
 
-
-
-# see if argv[5] is -w or -h or null	##!! I don't think this comment matches what's under it. !!##
-# w_size = os.path.getSize(wrapper)		##!! This is not used, should we takeit out? !!##
-
 #open wrapper file in byte mode and read it
-infile = open(wrapper, "rb")
-wrapper = read_file(infile)
-infile.close()
-
-sys.stdout.buffer.write(wrapper)
-
+wrapper = read_file(wrapper)
 
 # Start method calling
 if(methodVersion == "byte"):
 	if(mode == "store"):
-		wrapper = storage(wrapper, hidden, interval)
+		wrapper = byteStorage(wrapper, hidden, interval)
 		sys.stdout.buffer.write(wrapper)
 	elif(mode == "retrieve"):
-		hidden = extraction(wrapper, offset, interval)
+		hidden = byteExtraction(wrapper, offset, interval)
 		print(hidden)
-		sys.stdout.buffer.write(hidden)
+		sys.stdout.buffer.write(hidden) ##!! does nothing?? !!##
 	else:
 		print("Problem with mode varible")
 elif(methodVersion =="bit"):
