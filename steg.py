@@ -6,20 +6,19 @@ SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
 #this function reads files and returns them as byte arrays
 def read_file(file):
+	def read_file(file):
+	#open the file in read/byte mode
+	infile = open(file, 'rb')
 	#create an empty byte array
 	bytearr = bytearray()
-	pos = 0
 	while True:
 		#read a single byte
-		newByte = file.read(1)
-		print(newByte)
+		newByte = infile.read(1)
 		if not newByte:
 			break
-		#move the file up one byte
-		pos += 1
-		file.seek(pos)
 		#add new byte to byte array
-		bytearr.append(newByte)
+		bytearr.append(newByte[0])
+	infile.close()
 	return bytearr
 
 def storage(wrapper, hidden, interval):
