@@ -1,42 +1,69 @@
 import sys
-import Math
+# import Math
 import os
 
 SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 
-offset = []
+#this function reads files and returns them as byte arrays
+def read_file(file):
+	#create an empty byte array
+	bytearr = bytearray()
+	pos = 0
+	while True:
+		#read a single byte
+		newByte = file.read(1)
+		print(newByte)
+		if not newByte:
+			break
+		#move the file up one byte
+		pos += 1
+		file.seek(pos)
+		#add new byte to byte array
+		bytearr.append(newByte)
+	return bytearr
 
-# Byte Method
-#def interval(Sw, Sh, o): #Sw is the size of wrapper, Sh is the size of the hidden file,
-#o is the size of the offset
-#	It = Sw - o
-#	Ib = Sh + len(SentinelValue)
-#	Ivalue = Math.floor(It/Ib)
-#	return Ivalue
-
-def storage(W, H, I):
+def storage(wrapper, hidden, interval):
 	i = 0
-	while (i < len(H)):
-		W[offset] = H[i]
-		offset += I
+	while (i < len(hidden)):
+		wrapper[offset] = hidden[i]
+		offset += interval
 		i += 1
 
-	i == 0
+	i = 0
 	while (i < len(SentinelValue)):
-		W[offset] == SentinelValue[i]
-		offset += I
+		wrapper[offset] == SentinelValue[i]
+		offset += interval
 		i += 1
+	return wrapper
 
-def extraction(W, H, I):
-	while (offset < len(W)):
-		b = W[offset]
+def extraction(wrapper, offset, interval): ## !! there is no "hidden" to be passed in in this case !!##
+	hidden = bytearray()
+	print("offset = {}".format(offset))
+	print("interval = {}".format(interval))
+	print("wrapper length = {}".format(len(wrapper)))
+
+	while (offset < len(wrapper)):
+		b = wrapper[offset]
+		print("b = {}".format(b))
 		# Check if b matches a sentinel byte
-		if(b in SentinelValue):
+		if(b == SentinelValue[0]):
 			# Check further...
-			pass
+			tempB = b
+			sentinelHit = True
+			for i in range(1, 6):
+				# check for all sentinel values
+				if((tempB + (offset * i)) != SentinelValue[i]):
+					sentinelHit = False
+			#break while loop and return hidden if the sentinel was reached
+			if(sentinelHit == False):
+				break
+		# Add b to hidden
 		else:
-			H += b
-			offset += I
+			hidden.append(b)
+			print("hidden = {}".format(hidden))
+			offset += interval
+	return hidden
+
 
 # bit Method
 def bitStorage(W, H, I):
@@ -105,12 +132,12 @@ except:
 #offset
 try:
 	# get the offset value
-	offTrack = sys.argv[3]
+	offset = sys.argv[3]
 	#check that the correct argument was given
-	if(offTrack[0] != '-' and offTrack[1] != 'o'):
+	if(offset[0] != '-' and offset[1] != 'o'):
 		print("third argument should be -o<val> (for offset)")
 	else:
-		offTrack = offTrack[2:]
+		offset = int(offset[2:])
 except:
 	print("third argument required; should be -o<val> (for offset)")
 
@@ -151,18 +178,26 @@ except:
 
 
 
-# see if argv[5] is -w or -h or null
-w_size = os.path.getSize(wrapper)
+# see if argv[5] is -w or -h or null	##!! I don't think this comment matches what's under it. !!##
+# w_size = os.path.getSize(wrapper)		##!! This is not used, should we takeit out? !!##
 
-#open wrapper file in binary mode
+#open wrapper file in byte mode and read it
 infile = open(wrapper, "rb")
+wrapper = read_file(infile)
+infile.close()
+
+sys.stdout.buffer.write(wrapper)
+
 
 # Start method calling
 if(methodVersion == "byte"):
 	if(mode == "store"):
-		storage(wrapper, hidden, interval)
+		wrapper = storage(wrapper, hidden, interval)
+		sys.stdout.buffer.write(wrapper)
 	elif(mode == "retrieve"):
-		extraction(wrapper, hidden, interval)
+		hidden = extraction(wrapper, offset, interval)
+		print(hidden)
+		sys.stdout.buffer.write(hidden)
 	else:
 		print("Problem with mode varible")
 elif(methodVersion =="bit"):
@@ -175,19 +210,3 @@ elif(methodVersion =="bit"):
 else:
 	print("Probelm with methodVersion")
 
-
-
-
-# v  keeping for now, but not neccesary. will probably delete later  v
-# if mode == "store":
-#     hiddenfile = sys.argv[6][2:]
-#     h_size = os.path.getSize(hiddenfile)
-#     #setting the interval size
-#     file_interval = interval(w_size, h_size, offTrack)
-#     print(file_interval)
-#     if methodVersion == "Byte":
-#         pass
-#     else:
-#         pass
-# else:
-#     pass
