@@ -7,12 +7,12 @@ SentinelValue = [0x0, 0xff, 0x0, 0x0, 0xff, 0x0]
 offset = []
 
 # Byte Method
-def interval(Sw, Sh, o): #Sw is the size of wrapper, Sh is the size of the hidden file,
+#def interval(Sw, Sh, o): #Sw is the size of wrapper, Sh is the size of the hidden file,
 #o is the size of the offset
-	It = Sw - o
-	Ib = Sh + len(SentinelValue)
-	Ivalue = Math.floor(It/Ib)
-	return Ivalue
+#	It = Sw - o
+#	Ib = Sh + len(SentinelValue)
+#	Ivalue = Math.floor(It/Ib)
+#	return Ivalue
 
 def storage(W, H, I):
 	i = 0
@@ -107,7 +107,7 @@ try:
 	# get the offset value
 	offTrack = sys.argv[3]
 	#check that the correct argument was given
-	if(offTrack[1] != 'o'):
+	if(offTrack[0] != '-' and offTrack[1] != 'o'):
 		print("third argument should be -o<val> (for offset)")
 	else:
 		offTrack = offTrack[2:]
@@ -118,7 +118,7 @@ except:
 try:
 	# get given interval
 	interval = sys.argv[4]
-	if(interval[1] != 'i'):
+	if(interval[0] != '-' and interval[1] != 'i'):
 		print("fourth argument should be -i<val> (for interval)")
 	else:
 		interval = interval[2:]
@@ -129,7 +129,7 @@ except:
 try:
 	# check for wrapper	
 	wrapper = sys.argv[5]
-	if(wrapper[1] != 'w'):
+	if(wrapper[0] != '-' and wrapper[1] != 'w'):
 		print("fifth argument should be -w<val> (for wrapper)")
 	else:
 		wrapper = wrapper[2:]
@@ -140,7 +140,7 @@ except:
 #check for a hidden file
 try:
 	hidden = sys.argv[6] #this should throw an error and go to "except" if no argument is given
-	if(hidden[1] != 'h'):
+	if(hidden[0] != '-' and hidden[1] != 'h'):
 		print("sixth argument should be -h<val> (for hidden)")
 	else:
 		hidden = hidden[2:]
