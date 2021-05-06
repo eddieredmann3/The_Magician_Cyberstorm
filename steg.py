@@ -39,7 +39,7 @@ def extraction(W, H, I):
 			offset += I
 
 # bit Method
-def bit(W, H, I):
+def bitStorage(W, H, I):
 	i = 0
 	while (i < len(H)):
 		for j in range(0, 7):
@@ -59,7 +59,7 @@ def bit(W, H, I):
 			offset += I
 		i += 1
 
-def direct(W, H, I):
+def bitExtraction(W, H, I):
 	while (offset < len(W)):
 		b = 0
 		for j in range(0, 7):
@@ -96,7 +96,7 @@ try:
 	    methodVersion = "bit"
 	# if byte option
 	elif(sys.argv[2] == "-B"):
-	    methodVersion = "Byte"
+	    methodVersion = "byte"
 	else:
 		print("second argument should be -b (for bit) or -B (for Byte).")
 except:
@@ -156,6 +156,25 @@ w_size = os.path.getSize(wrapper)
 
 #open wrapper file in binary mode
 infile = open(wrapper, "rb")
+
+# Start method calling
+if(methodVersion == "byte"):
+	if(mode == "store"):
+		storage(wrapper, hidden, interval)
+	elif(mode == "retrieve"):
+		extraction(wrapper, hidden, interval)
+	else:
+		print("Problem with mode varible")
+elif(methodVersion =="bit"):
+	if(mode == "store"):
+		bitStorage(wrapper, hidden, interval)
+	elif(mode == "retrieve"):
+		bitExtraction(wrapper, hidden, interval)
+	else:
+		print("Problem with mode varible")
+else:
+	print("Probelm with methodVersion")
+
 
 
 
