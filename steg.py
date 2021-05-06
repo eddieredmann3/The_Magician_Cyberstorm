@@ -36,7 +36,7 @@ def byteStorage(wrapper, hidden, interval):
 def byteExtraction(wrapper, offset, interval):
 	hidden = bytearray()
 	while (offset < len(wrapper)):
-		b = wrapper[offset] 		##!!  b always prints as 0 for some reason  !!##
+		b = wrapper[offset]
 		# Check if b matches a sentinel byte
 		if(b == SentinelValue[0]):
 			# Check further...
@@ -51,9 +51,8 @@ def byteExtraction(wrapper, offset, interval):
 			if(sentinelHit == True):
 				break
 		# Add b to hidden
-		else:
-			hidden.append(b)
-			offset += interval
+		hidden.append(b)
+		offset += interval
 	return hidden
 
 
