@@ -14,12 +14,14 @@ def read_file(file):
 		newByte = infile.read(1)
 		if not newByte:
 			break
+		#turn byte to int
+		newByte = ord(newByte)
 		#add new byte to byte array
-		bytearr.append(newByte[0])
+		bytearr.append(newByte))
 	infile.close()
 	return bytearr
 
-def byteStorage(wrapper, hidden, interval):
+def byteStorage(wrapper, hidden, interval, offset):
 	i = 0
 	while (i < len(hidden)):
 		wrapper[offset] = hidden[i]
@@ -174,12 +176,11 @@ wrapper = read_file(wrapper)
 # Start method calling
 if(methodVersion == "byte"):
 	if(mode == "store"):
-		wrapper = byteStorage(wrapper, hidden, interval)
+		wrapper = byteStorage(wrapper, hidden, interval, offset)
 		sys.stdout.buffer.write(wrapper)
 	elif(mode == "retrieve"):
 		hidden = byteExtraction(wrapper, offset, interval)
-		print(hidden)
-		sys.stdout.buffer.write(hidden) ##!! does nothing?? !!##
+		sys.stdout.buffer.write(hidden)
 	else:
 		print("Problem with mode varible")
 elif(methodVersion =="bit"):
