@@ -66,7 +66,7 @@ def bitStorage(wrapper, hidden, interval):
 	while (i < len(hidden)):
 		for j in range(0, 7):
 			wrapper[offset] = wrapper[offset] & 254
-			wrapper[offset] = wrapper[offset] | ((SentinelValue[i] & 128) >> 7)
+			wrapper[offset] = wrapper[offset] | ((hidden[i] & 128) >> 7)
 			hidden[i] = hidden[i] << 1
 			offset += interval
 		i += 1
