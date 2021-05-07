@@ -127,52 +127,43 @@ try:
 except:
 	print("second argument required; should be -b (for bit) or -B (for Byte).")
 
-#offset
-try:
-	# get the offset value
-	offset = sys.argv[3]
-	#check that the correct argument was given
-	if(offset[0] != '-' and offset[1] != 'o'):
-		print("third argument should be -o<val> (for offset)")
-	else:
-		offset = int(offset[2:])
-except:
-	print("third argument required; should be -o<val> (for offset)")
+#set interval, offset, and hidden defaults
+interval = 1
+offset = 0
+hidden = "null"
 
-#interval
-try:
-	# get given interval
-	interval = sys.argv[4]
-	if(interval[0] != '-' and interval[1] != 'i'):
-		print("fourth argument should be -i<val> (for interval)")
-	else:
-		interval = int(interval[2:])
-except:
-	print("fourth argument required; should be -i<val> (for interval)")
+#check for offset, interval, wrapper, and hidden
+for i in range(3,7):
+	try:
+		current = sys.argv[i]
+		if(current[0] != '-'):
+			print("dashes ('-') must be placed before all arguments")
+		#offset
+		if(current[1] == 'o'):
+			offset = int(current[2:])
 
-#wrapper
-try:
-	# check for wrapper	
-	wrapper = sys.argv[5]
-	if(wrapper[0] != '-' and wrapper[1] != 'w'):
-		print("fifth argument should be -w<val> (for wrapper)")
-	else:
-		wrapper = wrapper[2:]
-except:
-	print("fifth argument required; should be -w<val> (for wrapper)")
+		#interval
+		elif(current[1] == 'i'):
+			interval = int(current[2:])
 
+		#wrapper
+		elif(current[1] == 'w'):
+			wrapper = current[2:]
 
-#check for a hidden file
-try:
-	hidden = sys.argv[6] #this should throw an error and go to "except" if no argument is given
-	if(hidden[0] != '-' and hidden[1] != 'h'):
-		print("sixth argument should be -h<val> (for hidden)")
-	else:
-		hidden = hidden[2:]
+		#hidden
+		elif(current[1] == 'h'):
+			hidden = current[2:]
+
+		#incorrect parameter
+		else:
+			print("incorrect parameter; possible parameters are -(sr) -(bB) -o<val> [-i<val>] -w<val> [-h<val>]")
+	#if there are no more parameters
+	except:
+		break
+
 #if no wrapper file is given, ensure we are in retrieve mode
-except:
-	if(mode != "retrieve"):
-		print("sixth argument is required for store mode; should be -h<val> (for hidden)")
+if((mode != "retrieve") and (hidden == "null")):
+	print("a hidden file argument is required for store mode; should be -h<val>")
 
 #open wrapper file in byte mode and read it
 wrapper = read_file(wrapper)
