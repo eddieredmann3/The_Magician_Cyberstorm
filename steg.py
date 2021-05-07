@@ -83,17 +83,21 @@ def bitStorage(wrapper, hidden, interval):
 	return wrapper
 
 def bitExtraction(wrapper, offset, interval):
-	hidden = bytearray()
-	while (offset < len(wrapper)):
-		b = 0
-		for j in range(0, 7):
-			b = b | (wrapper[offset] & 128)
-			if (j < 7):
-				b = b << 1
-				offset += interval
-		hidden += b
-		offset += interval
-	return hidden
+    hidden = bytearray()
+    while (offset < len(wrapper)):
+        b = 0
+        #for all 8 bits in the byte
+        for j in range(0, 8):
+            b = b | (wrapper[offset] & int('00000001', 2))
+            print(b)
+            if (j < 7):
+                b = b << 1
+                offset += interval
+        #check for sentinel byte: see byteExtraction
+
+        hidden.append(b) 
+        offset += interval
+    return hidden
 
 
 ###################### ENTRY POINT ##########################
@@ -179,12 +183,12 @@ if(methodVersion == "byte"):
 	else:
 		print("Problem with mode varible")
 elif(methodVersion =="bit"):
-	if(mode == "store"):
-		bitStorage(wrapper, hidden, interval)
-	elif(mode == "retrieve"):
-		bitExtraction(wrapper, hidden, interval)
-	else:
-		print("Problem with mode varible")
+    if(mode == "store"):
+        wrapper = bitStorage(wrapper, hidden, interval)        
+        sys.stdout.buffer.write(wrapper)
+    elif(mode == "retrieve"):
+        hidden = bitExtraction(wrapper, offset, interval)
+        sys.stdout.buffer.write(hidden)
 else:
 	print("Probelm with methodVersion")
 
