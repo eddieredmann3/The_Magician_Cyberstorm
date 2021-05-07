@@ -1,3 +1,8 @@
+###########################################################################
+# The Magician
+# Alex Davis, Landon Jackson, Skyler McAffry, Mary Nations, Matt Post,
+# Eddie Redmann, Brandon Rogers, Thomas Schwartzenburg
+###########################################################################
 import sys
 import os
 
@@ -17,7 +22,7 @@ def read_file(file):
 		#turn byte to int
 		newByte = ord(newByte)
 		#add new byte to byte array
-		bytearr.append(newByte)
+		bytearr.append(newByte)#[0])
 	infile.close()
 	return bytearr
 
@@ -61,22 +66,29 @@ def byteExtraction(wrapper, offset, interval):
 
 
 # bit Method
-def bitStorage(wrapper, hidden, interval):
+def bitStorage(wrapper, interval, offset):
 	i = 0
 	while (i < len(hidden)):
-		for j in range(0, 7):
+		#for all 8 bits
+		for j in range(0, 8):
+			# clear the last bit in the wrapper
 			wrapper[offset] = wrapper[offset] & 254
+			# put the first bit of hidden in the last bit of the wrapper
 			wrapper[offset] = wrapper[offset] | ((hidden[i] & 128) >> 7)
+			#zero out the first bit so it will be cut out when shifted
+			hidden[i] = hidden [i] & 127
+			# shift hidden up 1 so the next bit is now the fisrt bit
 			hidden[i] = hidden[i] << 1
 			offset += interval
 		i += 1
 
+	# add the sentinel
 	i = 0
 	while (i < len(SentinelValue)):
-		for j in range(0, 7):
+		for j in range(0, 8):
 			wrapper[offset] = wrapper[offset] & 254
 			wrapper[offset] = wrapper[offset] | ((SentinelValue[i] & 128) >> 7)
-        		
+			SentinelValue[i] = SentinelValue[i] & 127        	
 			SentinelValue[i] = SentinelValue[i] << 1
 			offset += interval
 		i += 1
@@ -190,20 +202,22 @@ wrapper = read_file(wrapper)
 # Start method calling
 if(methodVersion == "byte"):
 	if(mode == "store"):
+		hidden = read_file(hidden)
 		wrapper = byteStorage(wrapper, hidden, interval, offset)
 		sys.stdout.buffer.write(wrapper)
 	elif(mode == "retrieve"):
 		hidden = byteExtraction(wrapper, offset, interval)
-		sys.stdout.buffer.write(hidden)
+		sys.stdout.buffer.write(hidden)		
 	else:
 		print("Problem with mode varible")
 elif(methodVersion =="bit"):
-    if(mode == "store"):
-        wrapper = bitStorage(wrapper, hidden, interval)        
-        sys.stdout.buffer.write(wrapper)
-    elif(mode == "retrieve"):
-        hidden = bitExtraction(wrapper, offset, interval)
-        sys.stdout.buffer.write(hidden)
+	if(mode == "store"):
+		hidden = read_file(hidden)
+		wrapper = bitStorage(wrapper, interval, offset)		
+		sys.stdout.buffer.write(wrapper)
+	elif(mode == "retrieve"):
+		hidden = bitExtraction(wrapper, offset, interval)
+		sys.stdout.buffer.write(hidden)
 else:
 	print("Probelm with methodVersion")
 
