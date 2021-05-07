@@ -80,9 +80,10 @@ def bitStorage(wrapper, hidden, interval):
 			SentinelValue[i] = SentinelValue[i] << 1
 			offset += interval
 		i += 1
+	return wrapper
 
 def bitExtraction(wrapper, offset, interval):
-	hidden = 
+	hidden = bytearray()
 	while (offset < len(wrapper)):
 		b = 0
 		for j in range(0, 7):
@@ -90,8 +91,9 @@ def bitExtraction(wrapper, offset, interval):
 			if (j < 7):
 				b = b << 1
 				offset += interval
-		H += b
-		offset += I
+		hidden += b
+		offset += interval
+	return hidden
 
 
 ###################### ENTRY POINT ##########################
