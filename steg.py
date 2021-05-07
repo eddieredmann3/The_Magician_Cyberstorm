@@ -83,21 +83,36 @@ def bitStorage(wrapper, hidden, interval):
 	return wrapper
 
 def bitExtraction(wrapper, offset, interval):
-    hidden = bytearray()
-    while (offset < len(wrapper)):
-        b = 0
-        #for all 8 bits in the byte
-        for j in range(0, 8):
-            b = b | (wrapper[offset] & int('00000001', 2))
-            print(b)
-            if (j < 7):
-                b = b << 1
-                offset += interval
-        #check for sentinel byte: see byteExtraction
+	#used for looking for the sentinel
+	sentinelCheck = []
+	sentinelSearch = False
+	hidden = bytearray()
+	while (offset < len(wrapper)):
+		bit = 0
+		#for all 8 bits in the byte
+		for j in range(0, 8):
+			bit = bit | ((wrapper[offset]) & 1)
+			if (j < 7):
+				bit = bit << 1
+				offset += interval
 
-        hidden.append(b) 
-        offset += interval
-    return hidden
+		# Check if bit (now a full byte) matches a sentinel byte
+		if(bit == SentinelValue[0]):
+			sentinelSearch = True
+		# Check further...
+		if(sentinelSearch == True):
+			sentinelCheck.append(bit)
+			#if our array is the length of the sentinel
+			if(len(sentinelCheck) == 6):
+				if(sentinelCheck == SentinelValue):
+					break
+				#else, restart the search
+				else:
+					sentinelCheck = []
+					sentinelSearch = False
+		hidden.append(bit) 
+		offset += interval
+	return hidden
 
 
 ###################### ENTRY POINT ##########################
