@@ -23,14 +23,16 @@ def read_file(file):
 
 def byteStorage(wrapper, hidden, interval, offset):
 	i = 0
+	#set the designated wrapper bits to the hidden bit
 	while (i < len(hidden)):
 		wrapper[offset] = hidden[i]
 		offset += interval
 		i += 1
 
+	#add the sentinel
 	i = 0
 	while (i < len(SentinelValue)):
-		wrapper[offset] == SentinelValue[i]
+		wrapper[offset] = SentinelValue[i]
 		offset += interval
 		i += 1
 	return wrapper
