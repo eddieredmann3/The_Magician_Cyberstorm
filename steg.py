@@ -135,6 +135,7 @@ def bitExtraction(wrapper, offset, interval):
 #try-excepts are used to ensure correct user input
 
 #Store/Retrieve mode
+mode = ""
 try:
 	#print(sys.argv)
 	if(sys.argv[1] == "-s"):
@@ -149,6 +150,7 @@ except:
 	print("first argument required; should be -s (for store) or -r (for retrieve).")
 
 #Byte/bit mode
+methodVersion = ""
 try:
 	# if bit option
 	if(sys.argv[2] == "-b"):
