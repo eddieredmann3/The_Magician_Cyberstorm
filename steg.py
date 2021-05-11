@@ -3,6 +3,7 @@
 # Alex Davis, Landon Jackson, Skyler McAffry, Mary Nations, Matt Post,
 # Eddie Redmann, Brandon Rogers, Thomas Schwartzenburg
 ###########################################################################
+#updated 05/11/2021
 import sys
 import os
 
@@ -53,7 +54,7 @@ def byteExtraction(wrapper, offset, interval):
 			sentinelHit = True
 			for i in range(1, 6):
 				# check for all sentinel values
-				if((tempB + (offset * i)) != SentinelValue[i]):
+				if(wrapper[offset + (interval * i)] != SentinelValue[i]):
 					sentinelHit = False
 					break
 			#break while loop and return hidden if the sentinel was reached
@@ -117,6 +118,8 @@ def bitExtraction(wrapper, offset, interval):
 			#if our array is the length of the sentinel
 			if(len(sentinelCheck) == 6):
 				if(sentinelCheck == SentinelValue):
+					# take the sentinel off the end of the hidden file 					!!added!!
+					hidden = hidden[:(len(hidden)-6)]
 					break
 				#else, restart the search
 				else:
@@ -132,7 +135,6 @@ def bitExtraction(wrapper, offset, interval):
 #try-excepts are used to ensure correct user input
 
 #Store/Retrieve mode
-mode = ""
 try:
 	#print(sys.argv)
 	if(sys.argv[1] == "-s"):
@@ -147,7 +149,6 @@ except:
 	print("first argument required; should be -s (for store) or -r (for retrieve).")
 
 #Byte/bit mode
-methodVersion = ""
 try:
 	# if bit option
 	if(sys.argv[2] == "-b"):
