@@ -197,11 +197,17 @@ else:
 
             elif(sys.argv[1] == "-d"):
                 key = sys.argv[2]
+                valuestring = ""
                 while(True):
                     # Gets input then decodes and gives message
                     value = input()
-                    decryptedValue = decrypt(value, key)
-                    sys.stdout.write(decryptedValue)
+                    if(value == None):
+                        break
+                    else:
+                        valuestring += value
+                
+                decryptedValue = decrypt(value, key)
+                sys.stdout.write(decryptedValue)
         except EOFError:
             break
 
